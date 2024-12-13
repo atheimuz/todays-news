@@ -1,10 +1,7 @@
-"use client";
-
 import { useMemo } from "react";
-import { useRouter } from "next/navigation";
-import cx from "classnames";
 import { ITrend } from "@/models/trend";
 import NewsItem from "@/components/NewsItem";
+import TrendItem from "@/app/(main)/components/TrendItem";
 import styles from "./TrendList.module.scss";
 
 const TrendList = ({
@@ -14,7 +11,6 @@ const TrendList = ({
     data: ITrend[] | { error: string };
     keyword: string | null;
 }) => {
-    const router = useRouter();
     const selectedIndex = useMemo(() => {
         if (Array.isArray(data)) {
             const index = data.findIndex((item) => item.name === keyword);
@@ -24,10 +20,6 @@ const TrendList = ({
         return 0;
     }, [data, keyword]);
 
-    const onSelectKeyword = (value: string) => {
-        router.replace(`?keyword=${value}`);
-    };
-
     if ("error" in data) {
         return null;
     }
@@ -36,18 +28,12 @@ const TrendList = ({
         <div>
             <h2 className={styles.pageTitle}>오늘의 트렌드 요약</h2>
             <ul className={styles.trendItems}>
-                {data?.map((item) => (
+                {data?.map((item, itemIndex) => (
                     <li key={item.name}>
-                        <button
-                            type="button"
-                            className={cx(styles.trendItem, {
-                                [styles.active]: keyword === item.name
-                            })}
-                            onClick={() => onSelectKeyword(item.name)}
-                        >
-                            {item.name}
-                            {item.score >= 10000 ? "🔥" : ""}
-                        </button>
+                        <TrendItem
+                            {...item}
+                            active={keyword ? item.name === keyword : itemIndex === 0}
+                        />
                     </li>
                 ))}
             </ul>
