@@ -10,7 +10,7 @@ export default async function Home({ searchParams }: { searchParams: { keyword?:
     return (
         <div className={styles.page}>
             <div className={styles.left}>
-                <TrendList data={data} />
+                <TrendList data={data} keyword={keyword} />
             </div>
             <div className={styles.right}>
                 <NewsList keyword={keyword} />
