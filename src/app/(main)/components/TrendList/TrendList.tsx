@@ -1,24 +1,10 @@
-import { useMemo } from "react";
-import { ITrend } from "@/models/trend";
+import { getTrendsAPI } from "@/remote/trend";
 import NewsItem from "@/components/NewsItem";
 import TrendItem from "@/app/(main)/components/TrendItem";
 import styles from "./TrendList.module.scss";
 
-const TrendList = ({
-    data,
-    keyword
-}: {
-    data: ITrend[] | { error: string };
-    keyword: string | null;
-}) => {
-    const selectedIndex = useMemo(() => {
-        if (Array.isArray(data)) {
-            const index = data.findIndex((item) => item.name === keyword);
-            return index > -1 ? index : 0;
-        }
-
-        return 0;
-    }, [data, keyword]);
+const TrendList = async ({ keyword }: { keyword: string | null }) => {
+    const data = await getTrendsAPI();
 
     if ("error" in data) {
         return null;
@@ -38,11 +24,16 @@ const TrendList = ({
                 ))}
             </ul>
             <ul className={styles.newsItems}>
-                {data?.[selectedIndex]?.news?.map((item, itemIndex) => (
-                    <li className={styles.newsItem} key={itemIndex}>
-                        <NewsItem type="detail" {...item} />
-                    </li>
-                ))}
+                {data?.map((item, itemIndex) => {
+                    const isSelected = keyword ? keyword === item.name : itemIndex === 0;
+                    if (!isSelected) return null;
+
+                    return item.news.map((news) => (
+                        <li className={styles.newsItem} key={news.link}>
+                            <NewsItem type="detail" {...news} />
+                        </li>
+                    ));
+                })}
             </ul>
         </div>
     );
