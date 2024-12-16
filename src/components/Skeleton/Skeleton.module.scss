@@ -1,0 +1,30 @@
+@keyframes opacityAni {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.wrapper {
+    display: block;
+    height: 100%;
+    padding: 2px 0;
+    line-height: 1.5;
+}
+
+.inner {
+    display: block;
+    height: auto;
+    border-radius: 4px;
+    background-color: rgba(138, 138, 138, 0.13);
+    animation: 2s ease-in-out 0.5s infinite normal none running opacityAni;
+
+    &:before {
+        content: "\00a0";
+    }
+}
