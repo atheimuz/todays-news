@@ -1,10 +1,25 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { getTrendsAPI } from "@/remote/trend";
-import NewsItem from "@/components/NewsItem";
+import { ITrend } from "@/models/trend";
 import TrendItem from "@/app/(main)/components/TrendItem";
 import styles from "./TrendList.module.scss";
 
-const TrendList = async ({ keyword }: { keyword: string | null }) => {
-    const data = await getTrendsAPI();
+const TrendList = ({ keyword }: { keyword: string | null }) => {
+    const [data, setData] = useState<ITrend[] | { error: string } | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await getTrendsAPI();
+            if (!("error" in result)) {
+                setData(result);
+            }
+        };
+        fetchData();
+    }, []);
+
+    if (!data) return null;
 
     if ("error" in data) {
         return null;
