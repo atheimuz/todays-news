@@ -12,14 +12,13 @@
 
 .wrapper {
     display: block;
-    height: 100%;
     padding: 2px 0;
     line-height: 1.5;
 }
 
 .inner {
     display: block;
-    height: auto;
+    height: 100%;
     border-radius: 4px;
     background-color: rgba(138, 138, 138, 0.13);
     animation: 2s ease-in-out 0.5s infinite normal none running opacityAni;
