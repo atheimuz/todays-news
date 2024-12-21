@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { parseStringPromise } from "xml2js";
-import fetch from "node-fetch";
+import { fetchMetaImage } from "@/utils/fetch-meta";
+
+interface INaverNews {
+    originallink: string;
+    title: string;
+    pubDate: string;
+    description: string;
+}
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
@@ -12,23 +18,30 @@ export async function GET(request: NextRequest) {
 
     try {
         const response = await fetch(
-            `https://news.google.com/rss/search?q=${keyword}+when:1d&hl=ko&gl=KR&ceid=KR:ko`
+            `https://openapi.naver.com/v1/search/news.json?query=${keyword}`,
+            {
+                headers: {
+                    "X-Naver-Client-Id": process.env.NAVER_CLIENT_ID as string,
+                    "X-Naver-Client-Secret": process.env.NAVER_CLIENT_SECRET as string
+                }
+            }
         );
-        const xmlData = await response.text();
-        const jsonData = await parseStringPromise(xmlData, { explicitArray: false });
-        const items = jsonData.rss.channel.item;
+        const data: { items: INaverNews[] } = await response.json();
+        const { items } = data;
 
-        const result = items.map((item) => {
-            const company = item.source._;
-            const title = item.title.replace(` - ${company}`, "");
-            return {
-                link: item.link,
-                title,
-                company,
-                date: item.pubDate
-            };
-        });
+        const result = await Promise.all(
+            items.map(async (item) => {
+                const thumbnail = await fetchMetaImage(item.originallink);
 
+                return {
+                    link: item.originallink,
+                    title: item.title,
+                    date: item.pubDate,
+                    description: item.description,
+                    thumbnail
+                };
+            })
+        );
         return NextResponse.json({ status: 200, data: result });
     } catch (error) {
         return NextResponse.json(
