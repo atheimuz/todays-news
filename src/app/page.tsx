@@ -11,11 +11,11 @@ export default async function Home({ searchParams }: { searchParams: { keyword?:
         <div className={styles.page}>
             <div className={styles.left}>
                 <TrendList keyword={keyword} />
-            </div>
-            <div className={styles.right}>
                 <Suspense key={keyword} fallback={<NewsListSkeleton />}>
                 <NewsList keyword={keyword} />
                 </Suspense>
+            </div>
+            <div className={styles.right}>
             </div>
         </div>
     );

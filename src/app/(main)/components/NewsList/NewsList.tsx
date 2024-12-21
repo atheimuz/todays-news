@@ -1,6 +1,6 @@
-import NewsItem from "@/components/NewsItem";
 import { INews } from "@/models/news";
 import { getNewsAPI } from "@/remote/news";
+import NewsItem from "@/components/NewsItem";
 import styles from "./NewsList.module.scss";
 
 const NewsList = async ({ keyword }: { keyword: string | null }) => {
@@ -11,13 +11,15 @@ const NewsList = async ({ keyword }: { keyword: string | null }) => {
     }
 
     return (
-        <ul className={styles.newsItems}>
-            {data?.map((item: INews) => (
-                <li className={styles.newsItem} key={item.title}>
-                    <NewsItem {...item} />
-                </li>
-            ))}
-        </ul>
+        <div className={styles.wrapper}>
+            <ul className={styles.newsItems}>
+                {data?.map((item: INews) => (
+                    <li className={styles.newsItem} key={item.link}>
+                        <NewsItem {...item} />
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
 };
 
