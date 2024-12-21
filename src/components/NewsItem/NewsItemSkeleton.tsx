@@ -1,14 +1,10 @@
-import cx from "classnames";
 import Skeleton from "@/components/Skeleton";
 import styles from "./NewsItem.module.scss";
 
-interface Props {
-    type?: "detail" | "summary";
-}
-const NewsItemSkeleton = ({ type = "summary" }: Props) => {
+const NewsItemSkeleton = () => {
     return (
-        <div className={cx(styles.wrapper, styles[type])}>
-            {type === "detail" && <Skeleton className={styles.thumbnail} />}
+        <div className={styles.wrapper}>
+            <Skeleton className={styles.thumbnail} />
             <div className={styles.textWrapper}>
                 <div className={styles.titleWrapper}>
                     <Skeleton />

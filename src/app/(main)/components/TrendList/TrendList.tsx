@@ -30,7 +30,7 @@ const TrendList = async ({ keyword }: { keyword: string | null }) => {
 
                     return item.news.map((news) => (
                         <li className={styles.newsItem} key={news.link}>
-                            <NewsItem type="detail" {...news} />
+                            <NewsItem {...news} />
                         </li>
                     ));
                 })}
