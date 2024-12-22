@@ -1,14 +1,12 @@
+"use client";
+
 import { INews } from "@/models/news";
-import { getNewsAPI } from "@/remote/news";
+import { useNewsList } from "@/queries/useNewsQuery";
 import NewsItem from "@/components/NewsItem";
 import styles from "./NewsList.module.scss";
 
-const NewsList = async ({ keyword }: { keyword: string | null }) => {
-    const data = keyword ? await getNewsAPI(keyword) : null;
-
-    if (!keyword) {
-        return null;
-    }
+const NewsList = ({ keyword }: { keyword: string }) => {
+    const { data } = useNewsList(keyword);
 
     return (
         <div className={styles.wrapper}>

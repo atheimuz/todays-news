@@ -1,27 +1,21 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import cx from "classnames";
 import { ITrend } from "@/models/trend";
 import styles from "./TrendItem.module.scss";
 
 interface Props extends ITrend {
     active: boolean;
+    setKeyword: (value: string) => void;
 }
-const TrendItem = ({ name, score, active }: Props) => {
-    const router = useRouter();
-
-    const onSelectKeyword = (value: string) => {
-        router.replace(`?keyword=${value}`);
-    };
-
+const TrendItem = ({ name, score, active, setKeyword }: Props) => {
     return (
         <button
             type="button"
             className={cx(styles.wrapper, {
                 [styles.active]: active
             })}
-            onClick={() => onSelectKeyword(name)}
+            onClick={() => setKeyword(name)}
         >
             {name}
             {score >= 10000 ? "🔥" : ""}
