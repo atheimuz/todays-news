@@ -5,6 +5,9 @@
 }
 
 .left {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     width: 440px;
     height: 100%;
     margin-right: 20px;

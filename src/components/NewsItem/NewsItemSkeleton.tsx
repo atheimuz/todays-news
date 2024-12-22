@@ -4,7 +4,9 @@ import styles from "./NewsItem.module.scss";
 const NewsItemSkeleton = () => {
     return (
         <div className={styles.wrapper}>
-            <Skeleton className={styles.thumbnail} />
+            <div className={styles.thumbnail}>
+                <Skeleton />
+            </div>
             <div className={styles.textWrapper}>
                 <div className={styles.titleWrapper}>
                     <Skeleton />

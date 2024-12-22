@@ -16,26 +16,28 @@ const TrendList = () => {
     }
 
     return (
-        <div>
-            <h2 className={styles.pageTitle}>오늘의 트렌드 요약</h2>
-            <ul className={styles.trendItems}>
-                {data?.map((item) => (
-                    <li key={item.name}>
-                        <TrendItem
-                            {...item}
-                            active={item.name === keyword}
-                            setKeyword={setKeyword}
-                        />
-                    </li>
-                ))}
-            </ul>
+        <>
+            <div>
+                <h2 className={styles.pageTitle}>오늘의 트렌드 요약</h2>
+                <ul className={styles.trendItems}>
+                    {data?.map((item) => (
+                        <li key={item.name}>
+                            <TrendItem
+                                {...item}
+                                active={item.name === keyword}
+                                setKeyword={setKeyword}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            </div>
 
             {keyword && (
                 <Suspense key={keyword} fallback={<NewsListSkeleton />}>
                     <NewsList keyword={keyword} />
                 </Suspense>
             )}
-        </div>
+        </>
     );
 };
 
