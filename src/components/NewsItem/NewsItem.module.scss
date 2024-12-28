@@ -1,6 +1,7 @@
 .wrapper {
     display: flex;
     transition: transform 0.3s;
+    cursor: pointer;
 
     &:hover {
         transform: scale(0.98);
