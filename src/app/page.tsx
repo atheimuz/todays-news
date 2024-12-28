@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import TrendList from "@/app/(main)/components/TrendList";
 import TrendListSkeleton from "@/app/(main)/components/TrendList/TrendListSkeleton";
+import NewsDetail from "@/app/(main)/components/NewsDetail";
 import styles from "./page.module.scss";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
                 </Suspense>
             </div>
             <div className={styles.right}>
+                <NewsDetail />
             </div>
         </div>
     );
