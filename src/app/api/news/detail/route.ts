@@ -13,17 +13,8 @@ export async function GET(request: NextRequest) {
         const response = await fetch(link);
         const htmlData = await response.text();
         const content = await fetchMetaText(htmlData);
-
         return NextResponse.json({ status: 200, data: content });
     } catch (error) {
-        return NextResponse.json(
-            {
-                success: false,
-                message: `Error fetching news. detail: ${
-                    error instanceof Error ? error.message : "unknown"
-                }`
-            },
-            { status: 500 }
-        );
+        return NextResponse.json({ status: 200, data: null });
     }
 }
