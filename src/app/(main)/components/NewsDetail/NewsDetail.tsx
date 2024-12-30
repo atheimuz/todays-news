@@ -2,11 +2,16 @@
 
 import { useNewsStore } from "@/store/news";
 import { useNews } from "@/queries/useNewsQuery";
+import NewsDetailSkeleton from "./NewsDetailSkeleton";
 import styles from "./NewsDetail.module.scss";
 
 const NewsDetail = () => {
     const newsLink = useNewsStore((state) => state.newsLink);
-    const { data } = useNews(newsLink);
+    const { data, isFetching } = useNews(newsLink);
+
+    if (isFetching) {
+        return <NewsDetailSkeleton />;
+    }
 
     if (!newsLink || !data) return null;
 
