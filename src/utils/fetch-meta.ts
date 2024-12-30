@@ -33,6 +33,12 @@ export const fetchMetaText = async (htmlData: string) => {
             return null;
         }
 
+        const removeElements = article.querySelectorAll("iframe");
+
+        if (removeElements.length > 0) {
+            removeElements.forEach((iframe) => iframe.remove());
+        }
+
         return article.innerHTML;
     } catch (error) {
         console.error("Error fetching the meta content:", error);
