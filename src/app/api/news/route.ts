@@ -3,9 +3,18 @@ import { fetchMetaImage } from "@/utils/fetch-meta";
 
 interface INaverNews {
     originallink: string;
+    link: string;
     title: string;
     pubDate: string;
     description: string;
+}
+
+interface INewsItem {
+    link: string;
+    title: string;
+    date: string;
+    description: string;
+    thumbnail: string | null;
 }
 
 export async function GET(request: NextRequest) {
@@ -31,15 +40,24 @@ export async function GET(request: NextRequest) {
 
         const result = await Promise.all(
             items.map(async (item) => {
-                const thumbnail = await fetchMetaImage(item.originallink);
-
-                return {
+                const itemInfo: INewsItem = {
                     link: item.originallink,
                     title: item.title,
                     date: item.pubDate,
                     description: item.description,
-                    thumbnail
+                    thumbnail: null
                 };
+
+                try {
+                    const response = await fetch(item.originallink);
+                    const htmlData = await response.text();
+                    const thumbnail = await fetchMetaImage(htmlData);
+                    itemInfo.thumbnail = thumbnail;
+                } catch (e) {
+                    console.log("e:::", e);
+                } finally {
+                    return itemInfo;
+                }
             })
         );
         return NextResponse.json({ status: 200, data: result });
@@ -47,7 +65,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(
             {
                 success: false,
-                message: `Error fetching brand. detail: ${
+                message: `Error fetching news. detail: ${
                     error instanceof Error ? error.message : "unknown"
                 }`
             },
