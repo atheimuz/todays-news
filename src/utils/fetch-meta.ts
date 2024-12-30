@@ -1,8 +1,5 @@
-export const fetchMetaImage = async (url: string) => {
+export const fetchMetaImage = async (htmlData: string) => {
     try {
-        const response = await fetch(url);
-        const htmlData = await response.text();
-
         const ogImageMatch = htmlData.match(/<meta property="og:image" content="([^"]+)"/);
         const twitterImageMatch = htmlData.match(/<meta name="twitter:image" content="([^"]+)"/);
 
