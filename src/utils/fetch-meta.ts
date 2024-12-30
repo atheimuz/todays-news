@@ -19,13 +19,21 @@ export const fetchMetaText = async (htmlData: string) => {
     try {
         const dom = new JSDOM(htmlData);
         const document = dom.window.document;
-        const article =
-            document.querySelector(".article-body") || document.querySelector(".article_body");
 
-        if (article) {
-            return article.innerHTML;
+        const article =
+            document.querySelector('[itemprop^="article"]') ||
+            document.querySelector(".article-body") ||
+            document.querySelector(".article_body") ||
+            document.querySelector(".article_content") ||
+            document.querySelector(".article") ||
+            document.querySelector("#CmAdContent") ||
+            document.querySelector(".content");
+
+        if (!article) {
+            return null;
         }
-        return null;
+
+        return article.innerHTML;
     } catch (error) {
         console.error("Error fetching the meta content:", error);
         return null;
