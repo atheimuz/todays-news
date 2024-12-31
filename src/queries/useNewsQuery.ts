@@ -11,7 +11,7 @@ export const useNewsList = (keyword: string) => {
     });
 };
 
-export const useNews = (link: string | null) => {
+export const useNews = (link?: string) => {
     return useQuery({
         queryKey: [NEWS_QUERY_KEY, link],
         queryFn: () => getNewsAPI(link as string),
