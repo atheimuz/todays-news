@@ -2,6 +2,7 @@
 
 import { useNewsStore } from "@/store/news";
 import { useNews } from "@/queries/useNewsQuery";
+import { formatDate } from "@/utils/date";
 import NewsDetailSkeleton from "./NewsDetailSkeleton";
 import styles from "./NewsDetail.module.scss";
 
@@ -14,7 +15,7 @@ const NewsDetail = () => {
     return (
         <div className={styles.wrapper}>
             <h2 className={styles.title} dangerouslySetInnerHTML={{ __html: detailInfo.title }} />
-            <p className={styles.date}>{detailInfo.date}</p>
+            <p className={styles.date}>{formatDate(detailInfo.date)}</p>
             <div className={styles.content}>
                 {isFetching ? (
                     <NewsDetailSkeleton />
