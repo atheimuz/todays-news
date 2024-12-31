@@ -1,5 +1,61 @@
 import { JSDOM } from "jsdom";
 
+// 요소 제거
+const removeElements = async (elements: NodeListOf<Element> | Element[]): Promise<void> => {
+    elements.forEach((element) => element.remove());
+};
+
+// HTML에서 기사 컨텐츠를 추출
+const extractArticleContent = (document: Document): HTMLElement | null => {
+    const selectors = [
+        "#CmAdContent",
+        "#divNewsContent",
+        '[itemprop^="article"]',
+        ".article-body",
+        ".article_body",
+        ".article_content",
+        ".article",
+        "#art",
+        ".content"
+    ];
+
+    for (const selector of selectors) {
+        const element = document.body.querySelector(selector);
+        if (element) {
+            return element as HTMLElement;
+        }
+    }
+
+    return null;
+};
+
+// 불필요한 요소 제거
+const cleanArticleContent = async (article: HTMLElement): Promise<void> => {
+    const selectorsToRemove = [
+        "iframe",
+        '[class*="ad"], [class*="banner"], [class*="support"], [class*="info"], [id*="ad"], [id*="banner"], [id*="support"], [id*="info"]',
+        "script",
+        "h1",
+        "ul"
+    ];
+
+    for (const selector of selectorsToRemove) {
+        const elements = article.querySelectorAll(selector);
+        await removeElements(elements);
+    }
+};
+
+// 이미지 src 속성 처리
+const cleanImageSources = (document: Document): void => {
+    const images = document.querySelectorAll("img");
+    images.forEach((img: HTMLImageElement) => {
+        if (img.src.includes("/_ir50_/")) {
+            img.src = img.src.replace(/\/_ir50_\//g, ""); // "/_ir50_/" 부분 제거
+        }
+    });
+};
+
+// 기사 이미지를 가져오는 함수
 export const fetchMetaImage = async (htmlData: string) => {
     try {
         const ogImageMatch = htmlData.match(/<meta property="og:image" content="([^"]+)"/);
@@ -15,29 +71,19 @@ export const fetchMetaImage = async (htmlData: string) => {
     }
 };
 
-export const fetchMetaText = async (htmlData: string) => {
+// 기사 텍스트를 가져오는 함수
+export const fetchMetaText = async (htmlData: string): Promise<string | null> => {
     try {
         const dom = new JSDOM(htmlData);
         const document = dom.window.document;
 
-        const article =
-            document.querySelector('[itemprop^="article"]') ||
-            document.querySelector(".article-body") ||
-            document.querySelector(".article_body") ||
-            document.querySelector(".article_content") ||
-            document.querySelector(".article") ||
-            document.querySelector("#CmAdContent") ||
-            document.querySelector(".content");
-
+        const article = extractArticleContent(document);
         if (!article) {
             return null;
         }
 
-        const removeElements = article.querySelectorAll("iframe");
-
-        if (removeElements.length > 0) {
-            removeElements.forEach((iframe) => iframe.remove());
-        }
+        await cleanArticleContent(article);
+        cleanImageSources(document);
 
         return article.innerHTML;
     } catch (error) {
