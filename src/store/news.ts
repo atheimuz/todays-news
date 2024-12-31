@@ -1,11 +1,12 @@
 import { create } from "zustand";
+import { INews } from "@/models/news";
 
 interface NewsStore {
-    newsLink: string | null;
-    setNewsLink: (link: string | null) => void;
+    detail: INews | null;
+    setNewsDetail: (link: INews | null) => void;
 }
 
 export const useNewsStore = create<NewsStore>((set) => ({
-    newsLink: null,
-    setNewsLink: (link) => set(() => ({ newsLink: link }))
+    detail: null,
+    setNewsDetail: (info) => set(() => ({ detail: info }))
 }));

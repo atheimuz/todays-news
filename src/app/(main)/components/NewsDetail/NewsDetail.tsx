@@ -6,14 +6,10 @@ import NewsDetailSkeleton from "./NewsDetailSkeleton";
 import styles from "./NewsDetail.module.scss";
 
 const NewsDetail = () => {
-    const newsLink = useNewsStore((state) => state.newsLink);
-    const { data, isFetching } = useNews(newsLink);
+    const detailInfo = useNewsStore((state) => state.detail);
+    const { data, isFetching } = useNews(detailInfo?.link);
 
-    if (isFetching) {
-        return <NewsDetailSkeleton />;
-    }
-
-    if (!newsLink || !data) return null;
+    if (!detailInfo) return null;
 
     return (
         <div className={styles.wrapper}>

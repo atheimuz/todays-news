@@ -5,11 +5,12 @@ import { formatRelativeTime } from "@/utils/date";
 import { useNewsStore } from "@/store/news";
 import styles from "./NewsItem.module.scss";
 
-const NewsItem = ({ thumbnail, title, date, link }: INews) => {
-    const setNewsLink = useNewsStore((state) => state.setNewsLink);
+const NewsItem = (props: INews) => {
+    const { thumbnail, title, date } = props;
+    const setNewsDetail = useNewsStore((state) => state.setNewsDetail);
 
     return (
-        <div className={styles.wrapper} tabIndex={0} onClick={() => setNewsLink(link)}>
+        <div className={styles.wrapper} tabIndex={0} onClick={() => setNewsDetail(props)}>
             {thumbnail && <img src={thumbnail} className={styles.thumbnail} alt="뉴스 썸네일" />}
             <div className={styles.textWrapper}>
                 <div className={styles.titleWrapper}>
