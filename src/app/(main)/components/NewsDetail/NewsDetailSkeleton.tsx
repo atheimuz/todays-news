@@ -3,13 +3,11 @@ import styles from "./NewsDetail.module.scss";
 
 const NewsDetailSkeleton = () => {
     return (
-        <div className={styles.wrapper}>
-            <p>
-                <Skeleton />
-                <Skeleton />
-                <Skeleton />
-            </p>
-        </div>
+        <p>
+            {new Array(8).fill(0).map((_, index) => (
+                <Skeleton key={index} />
+            ))}
+        </p>
     );
 };
 
