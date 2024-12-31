@@ -1,8 +1,18 @@
+@keyframes slideLeft {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
 .wrapper {
     overflow: auto;
     height: 100%;
     padding: 20px;
     background-color: white;
+    animation: slideLeft 0.3s;
 }
 
 .content {
@@ -47,6 +57,7 @@
     padding: 8px;
     text-align: center;
     border-radius: 6px;
+    font-size: 14px;
     background-color: #ebebeb;
     color: black;
 }

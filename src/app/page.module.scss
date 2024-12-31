@@ -1,7 +1,6 @@
 .page {
     display: flex;
     height: 100svh;
-    padding: 20px 0 20px 20px;
 }
 
 .left {
@@ -10,8 +9,8 @@
     overflow: hidden;
     flex-shrink: 0;
     width: 440px;
-    height: 100%;
-    margin-right: 20px;
+    height: calc(100% - 40px);
+    margin: 20px;
     padding: 0 20px;
     border-radius: 20px;
     background-color: #f6f9fd;
