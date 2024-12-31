@@ -13,8 +13,8 @@ export interface INewsItem {
 
 export interface INews {
     link: string;
-    thumbnail?: string;
+    thumbnail: string | null;
     title: string;
-    company: string;
-    date?: string;
+    description: string;
+    date: string;
 }

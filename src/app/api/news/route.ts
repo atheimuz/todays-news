@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fetchMetaImage } from "@/utils/fetch-meta";
+import { INews } from "@/models/news";
 
 interface INaverNews {
     originallink: string;
@@ -7,14 +8,6 @@ interface INaverNews {
     title: string;
     pubDate: string;
     description: string;
-}
-
-interface INewsItem {
-    link: string;
-    title: string;
-    date: string;
-    description: string;
-    thumbnail: string | null;
 }
 
 export async function GET(request: NextRequest) {
@@ -40,7 +33,7 @@ export async function GET(request: NextRequest) {
 
         const result = await Promise.all(
             items.map(async (item) => {
-                const itemInfo: INewsItem = {
+                const itemInfo: INews = {
                     link: item.originallink,
                     title: item.title,
                     date: item.pubDate,
@@ -52,6 +45,7 @@ export async function GET(request: NextRequest) {
                     const response = await fetch(item.originallink);
                     const htmlData = await response.text();
                     const thumbnail = await fetchMetaImage(htmlData);
+
                     itemInfo.thumbnail = thumbnail;
                 } catch (e) {
                     console.log("e:::", e);
