@@ -33,9 +33,14 @@ const extractArticleContent = (document: Document): HTMLElement | null => {
 const cleanArticleContent = async (article: HTMLElement): Promise<void> => {
     const selectorsToRemove = [
         "iframe",
-        '[class*="ad"], [class*="banner"], [class*="support"], [class*="info"], [id*="ad"], [id*="banner"], [id*="support"], [id*="info"]',
+        "button",
+        '[id*="ad"], [id*="banner"], [id*="support"], [id*="info"], [id*="writer"]',
+        '[id*="Ad"], [id*="Banner"], [id*="Support"], [id*="Info"], [id*="Writer"]',
+        '[class*="ad"], [class*="banner"], [class*="support"], [class*="info"], [class*="writer"]',
+        '[class*="Ad"], [class*="Banner"], [class*="Support"], [class*="Info"], [class*="Writer"]',
         "script",
         "h1",
+        "h2",
         "ul"
     ];
 
