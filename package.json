@@ -15,6 +15,7 @@
         "next": "14.2.13",
         "react": "^18",
         "react-dom": "^18",
+        "react-modal-sheet": "^4.0.1",
         "sass": "^1.80.5",
         "xml2js": "^0.6.2",
         "zustand": "^5.0.2"
