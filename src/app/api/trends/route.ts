@@ -19,7 +19,8 @@ function replaceImgUrl(url: string) {
 export async function GET() {
     try {
         const response = await fetch(
-            `https://trends.google.com/trends/trendingsearches/daily/rss?geo=KR&hl=ko`
+            `https://trends.google.com/trends/trendingsearches/daily/rss?geo=KR&hl=ko`,
+            { cache: "no-store" }
         );
         const xmlData = await response.text();
         const jsonData = await parseStringPromise(xmlData, { explicitArray: false });

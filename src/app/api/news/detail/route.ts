@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const response = await fetch(link);
+        const response = await fetch(link, { cache: "no-store" });
         const htmlData = await response.text();
         const content = await fetchMetaText(htmlData);
         return NextResponse.json({ status: 200, data: content });

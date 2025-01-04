@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
         const response = await fetch(
             `https://openapi.naver.com/v1/search/news.json?query=${keyword}&sort=sim`,
             {
+                cache: "no-store",
                 headers: {
                     "X-Naver-Client-Id": process.env.NAVER_CLIENT_ID as string,
                     "X-Naver-Client-Secret": process.env.NAVER_CLIENT_SECRET as string
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
                 };
 
                 try {
-                    const response = await fetch(item.originallink);
+                    const response = await fetch(item.originallink, { cache: "no-store" });
                     const htmlData = await response.text();
                     const thumbnail = await fetchMetaImage(htmlData);
 
